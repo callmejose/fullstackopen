@@ -15,7 +15,10 @@ const App = () => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(votesArray)
 
-    const rndIndex = () => (
+  const maxVotes = Math.max(...votes)
+  const popularAnecdote = votes.indexOf(maxVotes)
+
+  const rndIndex = () => (
     Math.floor(
       Math.random() * anecdotes.length
     ))
@@ -32,10 +35,14 @@ const App = () => {
 
   return (
     <div>
+      <h2>Anecdote of the day</h2>
       <b><p>{anecdotes[selected]}</p></b>
       <b><p>likes: {votes[selected]}</p></b>
       <button onClick={like}>like!</button>
       <button onClick={newAnecdote}>gimemore!</button>
+      <h2>Popular anecdote</h2>
+      <b><p>{anecdotes[popularAnecdote]}</p></b>
+      <b><p>likes: {votes[popularAnecdote]}</p></b>
     </div>
   )
 }
