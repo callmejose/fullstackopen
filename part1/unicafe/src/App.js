@@ -1,4 +1,3 @@
-import { toHaveStyle } from '@testing-library/jest-dom/dist/matchers'
 import { useState } from 'react'
 
 const StatisticsLine = ({ text, value }) => (
