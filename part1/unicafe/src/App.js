@@ -1,7 +1,12 @@
 import { toHaveStyle } from '@testing-library/jest-dom/dist/matchers'
 import { useState } from 'react'
 
-const StatisticsLine = ({ text, value }) => (<p>{text}: {value}</p>)
+const StatisticsLine = ({ text, value }) => (
+  <tr>
+    <td>{text}</td>
+    <td>{value}</td>
+  </tr>
+)
 
 const Statistics = ({ good, neutral, bad }) => {
   const total = () => (good + neutral + bad)
@@ -11,21 +16,21 @@ const Statistics = ({ good, neutral, bad }) => {
       {total() === 0 ?
         <p><b>no feedback given, Click to vote!</b></p>
         :
-        <>
-          <h2>statistics</h2>
-          <StatisticsLine text="good" value={good}/>
-          <StatisticsLine text="neutral" value={neutral}/>
-          <StatisticsLine text="bad" value={bad}/>
-          <StatisticsLine text="all" value={total()}/>
-          <StatisticsLine text="sum" value={good - bad}/>
-          <StatisticsLine text="positive" value={(good / total()) * 100 + "%"}/>
-        </>
+        <table>
+          <tr><th>statistics</th></tr>
+          <StatisticsLine text="good" value={good} />
+          <StatisticsLine text="neutral" value={neutral} />
+          <StatisticsLine text="bad" value={bad} />
+          <StatisticsLine text="all" value={total()} />
+          <StatisticsLine text="sum" value={good - bad} />
+          <StatisticsLine text="positive" value={(good / total()) * 100 + "%"} />
+        </table>
       }
     </>
   )
 }
 
-const Button = ({ onClick, text}) => {
+const Button = ({ onClick, text }) => {
   return <button onClick={onClick}>{text}</button>
 }
 
