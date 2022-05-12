@@ -1,24 +1,25 @@
-const Course = ({ course }) => {
-  let totalExercices = course.parts.reduce(
-    (sum, part) => sum + part.exercises,
-    0
-  )
+const Course = ({ courses }) => {
+  const exercisesReducer = (sum, part) => sum + part.exercises
 
   return (
-    <div>
-      <h1>{course.name}</h1>
-      <ul>{course.parts.map((part) => {
-        return (
-          <li key={part.name}>{part.name} {part.exercises}</li>
-        )
-      })}</ul>
-      <p><b>total of {totalExercices} exercises</b></p>
-    </div>
+    <><h1>Web development course</h1>
+      <ul>{courses.map((course) => (
+        <li key={course.name}><div>
+          <h2>{course.name}</h2>
+          <ul>{course.parts.map((part) => {
+            return (
+              <li key={part.name}>{part.name} {part.exercises}</li>
+            )
+          })}</ul>
+          <p><b>total of {course.parts.reduce(exercisesReducer, 0)} exercises</b></p>
+        </div></li>
+      ))}</ul>
+    </>
   )
 }
 
 const App = () => {
-  const course = {
+  const courses = [{
     name: 'Half Stack application development',
     parts: [
       {
@@ -38,11 +39,24 @@ const App = () => {
         exercises: 11
       }
     ]
-  }
+  },
+  {
+    name: 'Node.js',
+    parts: [
+      {
+        name: 'Routing',
+        exercises: 3
+      },
+      {
+        name: 'Middlewares',
+        exercises: 7
+      }
+    ]
+  }]
 
   return (
     <div>
-      <Course course={course} />
+      <Course courses={courses} />
     </div>
   )
 }
