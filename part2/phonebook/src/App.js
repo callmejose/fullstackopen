@@ -3,9 +3,13 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Jose Quintero' }
-  ]) 
-  const [newName, setNewName] = useState("it's me")
+    {
+      name: 'Jose Quintero',
+      phone: '0123456789'
+    }
+  ])
+  const [newName, setNewName] = useState('')
+  const [newPhone, setNewPhone] = useState('')
 
   const nameFinder = (person) => person.name === newName
 
@@ -20,14 +24,17 @@ const App = () => {
 
     const newPhonebook = persons.concat(
       {
-        name: newName
+        name: newName,
+        phone: newPhone
       }
     )
     setPersons(newPhonebook)
     setNewName('')
+    setNewPhone('')
   }
 
-  const inputChange = (event) => setNewName(event.target.value)
+  const nameChange = (event) => setNewName(event.target.value)
+  const phoneChange = (event) => setNewPhone(event.target.value)
   const inputClick = () => setNewName('')
 
   return (
@@ -35,7 +42,17 @@ const App = () => {
       <h2>Phonebook</h2>
       <form>
         <div>
-          name: <input value={newName} onChange={inputChange} onClick={inputClick}/>
+          name: <input
+            type='text'
+            value={newName}
+            onChange={nameChange}
+            placeholder={"write here"} />
+        </div>
+        <div>
+          number: <input
+            type='tel'
+            value={newPhone}
+            onChange={phoneChange} />
         </div>
         <div>
           <button type="submit" onClick={addOnClick}>add</button>
@@ -44,7 +61,7 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {persons.map((person) => (
-          <li key={person.name}>{person.name}</li>
+          <li key={person.name}>{person.name} <b>{person.phone}</b></li>
         ))}
       </ul>
     </div>
