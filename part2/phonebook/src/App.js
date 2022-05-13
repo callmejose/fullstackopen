@@ -1,18 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Jose Quintero', phone: '0123456789' },
-    { name: 'Agatha', phone: '9876543210' },
-    { name: 'Asia', phone: '0192837465' },
-    { name: 'not me', phone: '0000000' },
-    { name: 'me neither', phone: '666' },
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    console.log('effect')
+    fetch('http://localhost:3001/persons')
+      .then(response => response.json())
+      .then(json => {
+        console.log('promise fulfilled', json)
+        setPersons(json)
+      })
+  },[])
 
   const nameFinder = (person) => person.name === newName
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(search))
