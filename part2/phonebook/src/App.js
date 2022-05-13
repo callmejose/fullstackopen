@@ -1,5 +1,6 @@
 import { useState } from 'react'
-//import Note from './components/Note'
+import Filter from './components/Filter'
+import Persons from './components/Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -15,9 +16,9 @@ const App = () => {
 
   const nameFinder = (person) => person.name === newName
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(search))
-  console.log('personsToShow: ', personsToShow)
+  //console.log('personsToShow: ', personsToShow)
 
-  const addOnClick = (event) => {
+  const addHandler = (event) => {
     event.preventDefault()
     console.log(persons.find(nameFinder))
 
@@ -37,50 +38,44 @@ const App = () => {
     setNewPhone('')
   }
 
-  const nameChange = (event) => setNewName(event.target.value)
-  const phoneChange = (event) => setNewPhone(event.target.value)
-  const searchChange = (event) => {
+  const nameHandler = (event) => setNewName(event.target.value)
+  const phoneHandler = (event) => setNewPhone(event.target.value)
+  const searchHandler = (event) => {
+    console.log('searchHandler search: ', search)
     setSearch(event.target.value.toLowerCase())
   }
 
-  
-  
   return (
     <div>
+      <h1>Phonebook</h1>
       <h2>Search</h2>
-      <div>
-        <p>filter by: 
-          <input 
-            type='text'
-            value={search}
-            onChange={searchChange}
-          /></p>
-      </div>
+      <Filter filter={search} handler={searchHandler} />
+      <input
+        type='text'
+        value={search}
+        onChange={searchHandler}
+      />
       <h2>Add a Phone</h2>
       <form>
         <div>
           name: <input
             type='text'
             value={newName}
-            onChange={nameChange}
+            onChange={nameHandler}
             placeholder={"write here"} />
         </div>
         <div>
           number: <input
             type='tel'
             value={newPhone}
-            onChange={phoneChange} />
+            onChange={phoneHandler} />
         </div>
         <div>
-          <button type="submit" onClick={addOnClick}>add</button>
+          <button type="submit" onClick={addHandler}>add</button>
         </div>
       </form>
       <h2>Numbers</h2>
-      <ul>
-        {personsToShow.map((person) => (
-          <li key={person.name}>{person.name} <b>{person.phone}</b></li>
-        ))}
-      </ul>
+      <Persons persons={personsToShow}/>
     </div>
   )
 }
