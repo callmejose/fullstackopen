@@ -1,30 +1,49 @@
+import { useState } from "react"
+
+const CountryView = ({ countrie }) => {
+  console.log('countrie: ', countrie)
+  if (countrie.cioc === "NaN") return <></>
+  return (
+    <div>
+      <h2>{countrie.translations.spa.common}</h2>
+      <p>Capital: {countrie.capital}</p>
+      <p>Population: {countrie.population}</p>
+      <img src={countrie.flags.png}
+        alt={`flag of ${countrie.translations.spa.common}`} />
+      <h3>Languages</h3>
+      <ul>
+        {Object.values(countrie.languages).map((language) =>
+          <li>{language}</li>
+        )}
+      </ul>
+    </div>
+  )
+}
+
+
 const CountryList = ({ countries }) => {
+  const [countrieToShow, setCountrieToShow] = useState({cioc: "NaN"})
+
   if (countries.length === 1) {
     return (
-      <div>
-        <h2>{countries[0].translations.spa.common}</h2>
-        <p>Capital: {countries[0].capital}</p>
-        <p>Population: {countries[0].population}</p>
-        <img src={countries[0].flags.png}
-          alt={`flag of ${countries[0].translations.spa.common}`} />
-        <h3>Languages</h3>
-        <ul>
-          {Object.values(countries[0].languages).map((language) =>
-            <li>{language}</li>
-          )}
-        </ul>
-      </div>
+      <CountryView countrie={countries[0]} />
     )
   }
   if (countries.length < 10) return (
-    <ul>
-      {countries.map((countrie) => (
-        <li>{countrie.translations.spa.common}</li>
-      )
-      )}
-    </ul>
+    <div>
+      <ul>
+        {countries.map((countrie) => (
+          <li key={countrie.cioc}>
+            {countrie.translations.spa.common}
+            <button onClick={() => setCountrieToShow(countrie)}>show</button>
+          </li>
+        )
+        )}
+      </ul>
+      <CountryView countrie={countrieToShow} />
+    </div>
   )
 
   return <p>please put a filter with less than 10 results</p>
 }
- export default CountryList  
+export default CountryList  
