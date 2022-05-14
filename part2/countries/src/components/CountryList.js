@@ -1,8 +1,10 @@
 import { useState } from "react"
+import Weather from "./Weather"
 
 const CountryView = ({ countrie }) => {
   console.log('countrie: ', countrie)
   if (countrie.cioc === "NaN") return <></>
+  const [latitude, longitude] = countrie.capitalInfo.latlng
   return (
     <div>
       <h2>{countrie.translations.spa.common}</h2>
@@ -16,13 +18,14 @@ const CountryView = ({ countrie }) => {
           <li>{language}</li>
         )}
       </ul>
+      <Weather latitude={latitude} longitude={longitude} />
     </div>
   )
 }
 
 
 const CountryList = ({ countries }) => {
-  const [countrieToShow, setCountrieToShow] = useState({cioc: "NaN"})
+  const [countrieToShow, setCountrieToShow] = useState({ cioc: "NaN" })
 
   if (countries.length === 1) {
     return (
