@@ -12,5 +12,10 @@ const create = (newObject) => {
         .then(response => response.data)
 }
 
-const exportedmethodes = { getAll, create }
+const remove = (id) => {
+    return axios.delete(`${baseUrl}/${id}`)
+        .then(response => response.data)
+}
+
+const exportedmethodes = { getAll, create, remove }
 export default exportedmethodes

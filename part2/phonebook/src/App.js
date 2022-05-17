@@ -47,11 +47,21 @@ const App = () => {
         setNewPhone('')
       })
   }
+  const removeHandler = (personToDelete) => {
+    console.log('removing from db: ', personToDelete.id)
+    if (window.confirm(`${personToDelete.name} will be deleted from the database COMPLETLY`)) {
+      services.remove(personToDelete.id)
+      .then(response => {
+        console.log('person removed from db: ', personToDelete.id)
+        setPersons(persons.filter(person => person.id !== personToDelete.id))
+      })
+    }
+  }
 
   const nameHandler = (event) => setNewName(event.target.value)
   const phoneHandler = (event) => setNewPhone(event.target.value)
   const searchHandler = (event) => {
-    console.log('searchHandler search: ', search)
+    console.log('search: ', event.target.value)
     setSearch(event.target.value.toLowerCase())
   }
 
@@ -60,11 +70,6 @@ const App = () => {
       <h1>Phonebook</h1>
       <h2>Search</h2>
       <Filter filter={search} handler={searchHandler} />
-      <input
-        type='text'
-        value={search}
-        onChange={searchHandler}
-      />
       <h2>Add a Phone</h2>
       <form>
         <div>
@@ -85,7 +90,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} removeHandler={removeHandler}/>
     </div>
   )
 }
