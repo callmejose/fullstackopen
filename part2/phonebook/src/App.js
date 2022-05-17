@@ -1,4 +1,3 @@
-import { getAllByAltText } from '@testing-library/react'
 import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import { Notification } from './components/Notification'
@@ -59,6 +58,15 @@ const App = () => {
               setAlert(null)
             }, 5000)
           })
+          .catch(
+            setAlert({
+              type: 'error',
+              text: `${existingPerson.name} already deleted from database`
+            }),
+            setTimeout(() => {
+              setAlert(null)
+            }, 5000)
+          )
       }
       return
     }
