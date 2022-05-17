@@ -1,6 +1,8 @@
+import { getAllByAltText } from '@testing-library/react'
 import { useEffect, useState } from 'react'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
+import services from './components/services'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -9,37 +11,41 @@ const App = () => {
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    fetch('http://localhost:3001/persons')
-      .then(response => response.json())
-      .then(json => {
-        console.log('promise fulfilled', json)
-        setPersons(json)
+    console.log('effect..')
+    services.getAll()
+      .then(response => {
+        console.log('promise fulfilled: ', response)
+        setPersons(response)
       })
-  },[])
+  }, [])
 
-  const nameFinder = (person) => person.name === newName
+  // console.log('rendered..', persons)
+  const nameFinder = (person) => person.name === newName  
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(search))
-  //console.log('personsToShow: ', personsToShow)
+  // console.log('personsToShow: ', personsToShow)
 
   const addHandler = (event) => {
     event.preventDefault()
-    console.log(persons.find(nameFinder))
+    console.log('adding a person..', persons.find(nameFinder))
 
     if (persons.find(nameFinder)) {
       alert(`${newName} is already in the book`)
       return
     }
 
-    const newPhonebook = persons.concat(
-      {
-        name: newName.trim,
-        phone: newPhone.trim
-      }
-    )
-    setPersons(newPhonebook)
-    setNewName('')
-    setNewPhone('')
+    const newPerson = {
+      name: newName.trim(),
+      number: newPhone.trim()
+    }
+
+    console.log('new person: ', newPerson)    
+    services.create(newPerson)
+      .then(response => {
+        console.log('new person in db: ', response)
+        setPersons((oldPhonebook) => oldPhonebook.concat(response))
+        setNewName('')
+        setNewPhone('')
+      })
   }
 
   const nameHandler = (event) => setNewName(event.target.value)
@@ -79,7 +85,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <Persons persons={personsToShow}/>
+      <Persons persons={personsToShow} />
     </div>
   )
 }
