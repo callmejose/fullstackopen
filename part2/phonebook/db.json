@@ -19,6 +19,21 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
+    },
+    {
+      "name": "jose",
+      "number": "06011990",
+      "id": 5
+    },
+    {
+      "name": "juan",
+      "number": "03031988",
+      "id": 6
+    },
+    {
+      "name": "thomas",
+      "number": "13031999",
+      "id": 7
     }
   ]
 }

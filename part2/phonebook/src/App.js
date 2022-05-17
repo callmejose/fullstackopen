@@ -26,16 +26,29 @@ const App = () => {
 
   const addHandler = (event) => {
     event.preventDefault()
-    console.log('adding a person..', persons.find(nameFinder))
-
-    if (persons.find(nameFinder)) {
-      alert(`${newName} is already in the book`)
-      return
-    }
+    const existingPerson = persons.find(nameFinder)
+    console.log('adding a person..', )
 
     const newPerson = {
       name: newName.trim(),
       number: newPhone.trim()
+    }
+
+    if (existingPerson) {
+      if (window.confirm(`${existingPerson.name} is already in the book, do you want to update his number?`)) {
+        console.log('update person: ', existingPerson)
+        services.update(existingPerson.id, newPerson)
+          .then(response => {
+            console.log('updated person in db: ', response)
+            setPersons((oldPhonebook) => {
+              let newPhonebook = [ ...oldPhonebook ]
+              const indexExistingPerson = persons.findIndex(nameFinder)
+              newPhonebook[indexExistingPerson] = { ...existingPerson, number: newPhone.trim() }
+              return newPhonebook
+            })
+          })
+      }
+      return
     }
 
     console.log('new person: ', newPerson)    

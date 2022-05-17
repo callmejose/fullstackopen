@@ -14,8 +14,17 @@ const create = (newObject) => {
 
 const remove = (id) => {
     return axios.delete(`${baseUrl}/${id}`)
-        .then(response => response.data)
+        .then(response => {
+            console.log('delete response: ', response)
+            return response.data})
 }
 
-const exportedmethodes = { getAll, create, remove }
+const update = (id, object) => {
+    return axios.put(`${baseUrl}/${id}`, object)
+    .then(response => {
+        console.log('put response: ', response)
+        return response.data})
+}
+
+const exportedmethodes = { getAll, create, remove, update }
 export default exportedmethodes
