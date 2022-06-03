@@ -1,29 +1,31 @@
-import axios from "axios"
+import axios from 'axios'
 
-const baseUrl = "http://localhost:3001/persons"
+const baseUrl = '/api/persons'
 
 const getAll = () => {
-    return axios.get(baseUrl)
-        .then(response => response.data)
+  return axios.get(baseUrl)
+    .then(response => response.data)
 }
 
 const create = (newObject) => {
-    return axios.post(baseUrl, newObject)
-        .then(response => response.data)
+  return axios.post(baseUrl, newObject)
+    .then(response => response.data)
 }
 
 const remove = (id) => {
-    return axios.delete(`${baseUrl}/${id}`)
-        .then(response => {
-            console.log('delete response: ', response)
-            return response.data})
+  return axios.delete(`${baseUrl}/${id}`)
+    .then(response => {
+      console.log('delete response: ', response)
+      return response.data
+    })
 }
 
 const update = (id, object) => {
-    return axios.put(`${baseUrl}/${id}`, object)
+  return axios.put(`${baseUrl}/${id}`, object)
     .then(response => {
-        console.log('put response: ', response)
-        return response.data})
+      console.log('put response: ', response)
+      return response.data
+    })
 }
 
 const exportedmethodes = { getAll, create, remove, update }

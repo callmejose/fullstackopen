@@ -9,10 +9,11 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [search, setSearch] = useState('')
-  const [alert, setAlert] = useState({
-    type: 'error',
-    text: 'initial error'
-  })
+  const [alert, setAlert] = useState(null)
+  // ({
+  //   type: 'error',
+  //   text: 'initial error'
+  // })
 
   useEffect(() => {
     console.log('effect..')
@@ -31,7 +32,7 @@ const App = () => {
   const addHandler = (event) => {
     event.preventDefault()
     const existingPerson = persons.find(nameFinder)
-    console.log('adding a person..',)
+    console.log('adding a person..')
 
     const newPerson = {
       name: newName.trim(),
@@ -45,14 +46,14 @@ const App = () => {
           .then(response => {
             console.log('updated person in db: ', response)
             setPersons((oldPhonebook) => {
-              let newPhonebook = [...oldPhonebook]
+              const newPhonebook = [...oldPhonebook]
               const indexExistingPerson = persons.findIndex(nameFinder)
               newPhonebook[indexExistingPerson] = { ...existingPerson, number: newPhone.trim() }
               return newPhonebook
             })
             setAlert({
-              type:'success',
-              text:`${existingPerson.name} updated to database`
+              type: 'success',
+              text: `${existingPerson.name} updated to database`
             })
             setTimeout(() => {
               setAlert(null)
@@ -79,12 +80,22 @@ const App = () => {
         setNewName('')
         setNewPhone('')
         setAlert({
-          type:'success',
-          text:`${newPerson.name} added to database`
+          type: 'success',
+          text: `${newPerson.name} added to database`
         })
         setTimeout(() => {
           setAlert(null)
-        }, 5000);
+        }, 5000)
+      })
+      .catch(error => {
+        console.log(error.response.data.error)
+        setAlert({
+          type: 'error',
+          text: error.response.data.error
+        })
+        setTimeout(() => {
+          setAlert(null)
+        }, 5000)
       })
   }
   const removeHandler = (personToDelete) => {
@@ -118,16 +129,18 @@ const App = () => {
             type='text'
             value={newName}
             onChange={nameHandler}
-            placeholder={"write here"} />
+            placeholder='write here'
+                />
         </div>
         <div>
           number: <input
             type='tel'
             value={newPhone}
-            onChange={phoneHandler} />
+            onChange={phoneHandler}
+                  />
         </div>
         <div>
-          <button type="submit" onClick={addHandler}>add</button>
+          <button type='submit' onClick={addHandler}>add</button>
         </div>
       </form>
       <h2>Numbers</h2>
@@ -136,4 +149,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App
